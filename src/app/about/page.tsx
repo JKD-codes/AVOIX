@@ -2,7 +2,7 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { Sparkles, Code2, Rocket, Paintbrush, Linkedin, Twitter } from "lucide-react";
+import { Sparkles, Code2, Rocket, Paintbrush } from "lucide-react";
 import { LinkedinIcon, TwitterIcon } from "@/lib/icons";
 
 // Updated Team Members as per latest request
