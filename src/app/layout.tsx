@@ -24,6 +24,9 @@ const poppins = Poppins({
 export const metadata: Metadata = {
   title: "AVOIX | Premium Creative Agency",
   description: "High-performance digital experiences for global businesses looking to upscale.",
+  icons: {
+    icon: "/Futuristic_AV_logo_design_black_bg.png",
+  },
 };
 
 export default function RootLayout({

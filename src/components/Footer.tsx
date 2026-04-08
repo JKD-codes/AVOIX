@@ -2,6 +2,7 @@ import React from "react";
 import Link from "next/link";
 import { Mail, Phone, MapPin } from "lucide-react";
 import { TwitterIcon, InstagramIcon, LinkedinIcon } from "@/lib/icons";
+import Logo from "./Logo";
 
 const Footer = () => {
   return (
@@ -9,13 +10,8 @@ const Footer = () => {
       <div className="container mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
         {/* Brand Section */}
         <div className="flex flex-col gap-6">
-          <Link href="/" className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-accent-orange flex items-center justify-center font-bold text-white text-xl">
-              A
-            </div>
-            <span className="text-2xl font-bold tracking-tighter text-white">
-              AVOIX
-            </span>
+          <Link href="/">
+            <Logo />
           </Link>
           <p className="text-white/60 leading-relaxed font-inter">
             Premium creative agency delivering digital experiences that scale and grow businesses globally. We specialize in high-performance websites and strategic branding.
