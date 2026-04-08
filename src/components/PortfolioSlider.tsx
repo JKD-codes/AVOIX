@@ -25,7 +25,7 @@ const textVariants = {
     y: 0,
     transition: {
       duration: 1,
-      ease: [0.16, 1, 0.3, 1], // Custom cubic-bezier for premium feel
+      ease: [0.16, 1, 0.3, 1] as any, // Cast to any to bypass strict variant typing
     },
   },
 };
