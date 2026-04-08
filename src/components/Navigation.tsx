@@ -26,6 +26,15 @@ const Navigation = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+  }, [isOpen]);
+
   return (
     <nav 
       className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${
@@ -34,7 +43,7 @@ const Navigation = () => {
     >
       <div className="container mx-auto px-6 flex items-center justify-between">
         {/* Logo */}
-        <Link href="/" className="relative z-[60]">
+        <Link href="/" className="relative z-[60]" onClick={() => setIsOpen(false)}>
           <Logo />
         </Link>
 
@@ -61,7 +70,7 @@ const Navigation = () => {
 
         {/* Mobile Toggle */}
         <button 
-          className="md:hidden text-white z-[60] p-2 bg-white/5 rounded-full border border-white/10"
+          className="md:hidden text-white z-[60] p-3 bg-white/5 rounded-full border border-white/10 active:scale-95 transition-transform"
           onClick={() => setIsOpen(!isOpen)}
         >
           {isOpen ? <X size={24} /> : <Menu size={24} />}
@@ -74,39 +83,58 @@ const Navigation = () => {
               initial={{ opacity: 0, x: "100%" }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: "100%" }}
-              transition={{ type: "spring", damping: 25, stiffness: 200 }}
-              className="fixed inset-0 bg-primary z-[55] flex flex-col items-center justify-center gap-8 py-20 px-6 grid-bg"
+              transition={{ type: "spring", damping: 30, stiffness: 200 }}
+              className="fixed inset-0 bg-primary z-[55] flex flex-col items-center justify-center gap-6 py-20 px-6 overflow-y-auto"
             >
-              {navLinks.map((link, index) => (
+              {/* Technical Grid Overlay */}
+              <div className="absolute inset-0 grid-bg opacity-10 pointer-events-none" />
+              
+              <div className="flex flex-col items-center gap-8 relative z-10 w-full">
+                {navLinks.map((link, index) => (
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.1 }}
+                    key={link.name}
+                    className="w-full text-center"
+                  >
+                    <Link 
+                      href={link.href}
+                      className="text-5xl font-black text-white hover:text-accent-cyan transition-colors font-plus-jakarta lowercase tracking-tighter"
+                      onClick={() => setIsOpen(false)}
+                    >
+                      {link.name}
+                    </Link>
+                  </motion.div>
+                ))}
+                
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.1 }}
-                  key={link.name}
+                  transition={{ delay: 0.6 }}
+                  className="pt-10 w-full max-w-xs"
                 >
                   <Link 
-                    href={link.href}
-                    className="text-4xl font-bold text-white hover:text-accent-cyan transition-colors font-plus-jakarta"
+                    href="/contact"
+                    className="bg-white text-black w-full py-5 rounded-full font-bold text-xl shadow-2xl flex items-center justify-center gap-3"
                     onClick={() => setIsOpen(false)}
                   >
-                    {link.name}
+                    Start Project
+                    <ArrowRight size={24} />
                   </Link>
                 </motion.div>
-              ))}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.5 }}
-                className="pt-10"
-              >
-                <Link 
-                  href="/contact"
-                  className="bg-accent-orange text-white px-12 py-4 rounded-full font-bold text-xl shadow-lg"
-                  onClick={() => setIsOpen(false)}
+
+                {/* Footer Info in Menu */}
+                <motion.div 
+                   initial={{ opacity: 0 }}
+                   animate={{ opacity: 1 }}
+                   transition={{ delay: 0.8 }}
+                   className="mt-12 text-center"
                 >
-                  Start Project
-                </Link>
-              </motion.div>
+                   <p className="text-white/20 text-xs font-bold uppercase tracking-[0.3em] mb-2">Get in Touch</p>
+                   <p className="text-white/40 text-sm">hello@avoix.co</p>
+                </motion.div>
+              </div>
             </motion.div>
           )}
         </AnimatePresence>

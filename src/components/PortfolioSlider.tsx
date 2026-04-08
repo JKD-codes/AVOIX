@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ArrowUpRight } from "lucide-react";
@@ -18,8 +18,21 @@ const projects = [
 const PortfolioSlider = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLDivElement>(null);
+  const [isDesktop, setIsDesktop] = useState(false);
 
   useEffect(() => {
+    const handleResize = () => {
+      setIsDesktop(window.innerWidth >= 1024);
+    };
+    
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  useEffect(() => {
+    if (!isDesktop || !scrollRef.current || !triggerRef.current) return;
+
     const pin = gsap.fromTo(
       scrollRef.current,
       { translateX: 0 },
@@ -40,11 +53,12 @@ const PortfolioSlider = () => {
     return () => {
       pin.kill();
     };
-  }, []);
+  }, [isDesktop]);
 
   return (
-    <section className="overflow-hidden bg-primary">
-      <div ref={triggerRef}>
+    <section className="overflow-hidden bg-primary" ref={triggerRef}>
+      {/* Desktop Horizontal View */}
+      {isDesktop ? (
         <div ref={scrollRef} className="h-screen w-[400vw] flex flex-row relative items-center px-[10vw]">
           {/* Header Card */}
           <div className="h-[70vh] w-[80vw] flex-shrink-0 flex flex-col justify-center px-20">
@@ -84,7 +98,49 @@ const PortfolioSlider = () => {
             </div>
           ))}
         </div>
-      </div>
+      ) : (
+        /* Mobile Vertical View */
+        <div className="container mx-auto px-6 py-20 flex flex-col gap-16">
+          <div className="mb-10">
+             <h2 className="text-6xl md:text-8xl font-black text-white leading-none tracking-tighter lowercase">
+               selected <br />
+               <span className="text-gradient">works</span>
+             </h2>
+             <p className="text-lg text-white/30 max-w-md mt-6 font-inter">
+               A deep dive into how we scale businesses through high-performance digital engineering.
+             </p>
+          </div>
+          
+          <div className="flex flex-col gap-10">
+            {projects.map((project) => (
+              <div 
+                key={project.id} 
+                className={`w-full aspect-[4/5] glass-card rounded-[2.5rem] border border-white/5 overflow-hidden group relative flex flex-col justify-between p-8 bg-gradient-to-br ${project.color} to-transparent`}
+              >
+                <div className="flex justify-between items-start relative z-10">
+                   <div>
+                      <p className="text-accent-cyan font-bold tracking-[0.3em] uppercase text-[9px] mb-2">{project.category}</p>
+                      <h3 className="text-4xl font-black text-white font-plus-jakarta tracking-tighter">{project.name}</h3>
+                   </div>
+                   <div className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center bg-white/5">
+                      <ArrowUpRight size={20} className="text-white" />
+                   </div>
+                </div>
+
+                <div className="flex items-end justify-between relative z-10">
+                   <div>
+                      <p className="text-white/40 text-[10px] mb-1 uppercase tracking-widest font-bold">Key Result</p>
+                      <p className="text-2xl font-black text-white">{project.result}</p>
+                   </div>
+                   <div className="text-8xl font-black text-white/[0.03] absolute -bottom-4 right-0 pointer-events-none">
+                      0{project.id}
+                   </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </section>
   );
 };

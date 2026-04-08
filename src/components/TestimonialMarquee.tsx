@@ -16,14 +16,14 @@ const TestimonialMarquee = () => {
   return (
     <div className="py-20 overflow-hidden relative group">
       {/* Edge Fades */}
-      <div className="absolute left-0 top-0 h-full w-40 bg-gradient-to-r from-black to-transparent z-10 pointer-events-none" />
-      <div className="absolute right-0 top-0 h-full w-40 bg-gradient-to-l from-black to-transparent z-10 pointer-events-none" />
+      <div className="absolute left-0 top-0 h-full w-20 md:w-40 bg-gradient-to-r from-black to-transparent z-10 pointer-events-none" />
+      <div className="absolute right-0 top-0 h-full w-20 md:w-40 bg-gradient-to-l from-black to-transparent z-10 pointer-events-none" />
 
-      <div className="flex animate-marquee animate-marquee-pause whitespace-nowrap gap-6 py-10">
+      <div className="flex animate-marquee animate-marquee-pause whitespace-nowrap gap-4 md:gap-6 py-10">
         {[...testimonials, ...testimonials].map((item, index) => (
           <div 
             key={index}
-            className="flex-shrink-0 w-[400px] h-[220px] p-8 rounded-3xl glass-card border-[1px] border-white/5 hover:border-accent-cyan/40 hover:bg-white/[0.08] transition-all duration-500 cursor-pointer group/card flex flex-col justify-between"
+            className="flex-shrink-0 w-[85vw] md:w-[400px] min-h-[220px] p-6 md:p-8 rounded-3xl glass-card border-[1px] border-white/5 hover:border-accent-cyan/40 hover:bg-white/[0.08] transition-all duration-500 cursor-pointer group/card flex flex-col justify-between"
           >
             <div className="flex justify-between items-start mb-4">
               <div className="flex gap-1 text-accent-cyan">
@@ -31,21 +31,21 @@ const TestimonialMarquee = () => {
                    <Star key={i} size={14} fill="currentColor" />
                 ))}
               </div>
-              <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white/20 group-hover/card:text-accent-cyan transition-colors">
+              <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-white/5 flex items-center justify-center text-white/20 group-hover/card:text-accent-cyan transition-colors">
                 <MessageSquareQuote size={20} />
               </div>
             </div>
             
-            <p className="text-white/60 font-inter text-sm leading-relaxed whitespace-normal group-hover/card:text-white/90 transition-colors">
+            <p className="text-white/60 font-inter text-sm md:text-base leading-relaxed whitespace-normal group-hover/card:text-white/90 transition-colors">
               "{item.text}"
             </p>
             
             <div className="mt-6 flex items-center justify-between">
               <div>
-                <p className="text-white font-bold font-plus-jakarta text-lg">{item.name}</p>
-                <p className="text-accent-cyan font-bold uppercase tracking-widest text-[9px] mt-0.5">{item.company}</p>
+                <p className="text-white font-bold font-plus-jakarta text-base md:text-lg">{item.name}</p>
+                <p className="text-accent-cyan font-bold uppercase tracking-widest text-[8px] md:text-[9px] mt-0.5">{item.company}</p>
               </div>
-              <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-[10px] font-black text-white/40">
+              <div className="w-7 h-7 md:w-8 md:h-8 rounded-full bg-white/10 flex items-center justify-center text-[8px] md:text-[10px] font-black text-white/40">
                 AV
               </div>
             </div>
