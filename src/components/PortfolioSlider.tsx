@@ -4,8 +4,31 @@ import React, { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ArrowUpRight } from "lucide-react";
+import { motion } from "framer-motion";
 
 gsap.registerPlugin(ScrollTrigger);
+
+const containerVariants = {
+  hidden: { opacity: 1 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.15,
+      delayChildren: 0.1,
+    },
+  },
+};
+
+const textVariants = {
+  hidden: { y: "100%" },
+  visible: {
+    y: 0,
+    transition: {
+      duration: 1,
+      ease: [0.16, 1, 0.3, 1], // Custom cubic-bezier for premium feel
+    },
+  },
+};
 
 const projects = [
   { id: 1, name: "EcoScale", category: "Branding", result: "+45% Growth", color: "from-accent-cyan/20" },
@@ -64,11 +87,21 @@ const PortfolioSlider = () => {
         <div ref={scrollRef} className="min-h-screen w-[480vw] flex flex-row relative items-center">
           {/* Header Card */}
           <div className="h-[70vh] w-[80vw] flex-shrink-0 flex flex-col justify-center px-20">
-             <h2 className="text-[12rem] font-black text-white leading-none tracking-tighter lowercase">
-               selected <br />
-               <span className="text-gradient">works</span>
-             </h2>
-             <p className="text-xl text-white/30 max-w-md mt-10 font-inter">
+             <motion.h2 
+               variants={containerVariants}
+               initial="hidden"
+               whileInView="visible"
+               viewport={{ once: false, amount: 0.3 }}
+               className="text-[12rem] font-black text-white leading-none tracking-tighter lowercase"
+              >
+               <div className="overflow-hidden">
+                 <motion.span variants={textVariants} className="block">selected</motion.span>
+               </div>
+               <div className="overflow-hidden">
+                 <motion.span variants={textVariants} className="block text-gradient">works</motion.span>
+               </div>
+             </motion.h2>
+             <p className="text-xl text-white/30 max-w-md mt-10 font-inter font-medium leading-relaxed">
                A deep dive into how we scale businesses through high-performance digital engineering.
              </p>
           </div>
@@ -104,10 +137,20 @@ const PortfolioSlider = () => {
         /* Mobile Vertical View */
         <div className="container mx-auto px-6 py-20 flex flex-col gap-16">
           <div className="mb-10">
-             <h2 className="text-6xl md:text-8xl font-black text-white leading-none tracking-tighter lowercase">
-               selected <br />
-               <span className="text-gradient">works</span>
-             </h2>
+             <motion.h2 
+               variants={containerVariants}
+               initial="hidden"
+               whileInView="visible"
+               viewport={{ once: false, amount: 0.3 }}
+               className="text-6xl md:text-8xl font-black text-white leading-none tracking-tighter lowercase"
+              >
+               <div className="overflow-hidden">
+                 <motion.span variants={textVariants} className="block">selected</motion.span>
+               </div>
+               <div className="overflow-hidden">
+                 <motion.span variants={textVariants} className="block text-gradient">works</motion.span>
+               </div>
+             </motion.h2>
              <p className="text-lg text-white/30 max-w-md mt-6 font-inter">
                A deep dive into how we scale businesses through high-performance digital engineering.
              </p>
