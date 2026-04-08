@@ -1,8 +1,7 @@
 "use client";
 
 import React, { useRef, useEffect, useState } from "react";
-import { Star, MessageSquareQuote, ChevronLeft, ChevronRight } from "lucide-react";
-import { motion, useAnimationControls } from "framer-motion";
+import { Star, MessageSquareQuote } from "lucide-react";
 
 const testimonials = [
   { name: "Jagrat", company: "Elite Partners", text: "The engineering precision at AVOIX is unlike anything we've seen. Simply the best." },
@@ -14,49 +13,19 @@ const testimonials = [
 ];
 
 const TestimonialMarquee = () => {
-  const containerRef = useRef<HTMLDivElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
   const [isPaused, setIsPaused] = useState(false);
   
-  // Custom scroll function
-  const scroll = (direction: 'left' | 'right') => {
-    if (!scrollRef.current) return;
-    
-    const cardWidth = 424; // Card width (400) + gap (24)
-    const currentScroll = scrollRef.current.scrollLeft;
-    const targetScroll = direction === 'right' 
-      ? currentScroll + cardWidth 
-      : currentScroll - cardWidth;
-      
-    scrollRef.current.scrollTo({
-      left: targetScroll,
-      behavior: 'smooth'
-    });
-  };
-
-  // Handle keyboard navigation
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'ArrowLeft') scroll('left');
-      if (e.key === 'ArrowRight') scroll('right');
-    };
-
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, []);
-
   // Infinite scroll logic for the marquee
   useEffect(() => {
     const scrollContainer = scrollRef.current;
     if (!scrollContainer) return;
 
     let animationFrameId: number;
-    let lastTime = 0;
     const speed = 0.5; // pixels per frame
 
-    const animateForward = (time: number) => {
+    const animateForward = () => {
       if (!isPaused) {
-        // We use 3 sets to ensure enough content for smooth jumping
         const setWidth = scrollContainer.scrollWidth / 3;
         
         if (scrollContainer.scrollLeft >= setWidth) {
@@ -73,68 +42,48 @@ const TestimonialMarquee = () => {
   }, [isPaused]);
 
   return (
-    <div className="py-10 relative group/section">
-      {/* Navigation Buttons */}
-      <div className="absolute top-0 right-6 z-20 flex gap-4 opacity-0 group-hover/section:opacity-100 transition-opacity duration-500">
-        <button 
-          onClick={() => scroll('left')}
-          className="w-12 h-12 rounded-full glass-card border-[1px] border-white/10 flex items-center justify-center text-white/40 hover:text-accent-cyan hover:border-accent-cyan/50 hover:bg-white/[0.08] transition-all bg-black/20"
-          aria-label="Previous testimonial"
-        >
-          <ChevronLeft size={24} />
-        </button>
-        <button 
-          onClick={() => scroll('right')}
-          className="w-12 h-12 rounded-full glass-card border-[1px] border-white/10 flex items-center justify-center text-white/40 hover:text-accent-cyan hover:border-accent-cyan/50 hover:bg-white/[0.08] transition-all bg-black/20"
-          aria-label="Next testimonial"
-        >
-          <ChevronRight size={24} />
-        </button>
-      </div>
+    <div className="py-20 overflow-hidden relative group">
+      {/* Edge Fades */}
+      <div className="absolute left-0 top-0 h-full w-20 md:w-40 bg-gradient-to-r from-black to-transparent z-10 pointer-events-none" />
+      <div className="absolute right-0 top-0 h-full w-20 md:w-40 bg-gradient-to-l from-black to-transparent z-10 pointer-events-none" />
 
-      <div className="py-20 overflow-hidden relative">
-        {/* Edge Fades */}
-        <div className="absolute left-0 top-0 h-full w-20 md:w-40 bg-gradient-to-r from-black to-transparent z-10 pointer-events-none" />
-        <div className="absolute right-0 top-0 h-full w-20 md:w-40 bg-gradient-to-l from-black to-transparent z-10 pointer-events-none" />
-
-        <div 
-          ref={scrollRef}
-          className="flex overflow-x-hidden whitespace-nowrap gap-4 md:gap-6 py-10 no-scrollbar select-none"
-          onMouseEnter={() => setIsPaused(true)}
-          onMouseLeave={() => setIsPaused(false)}
-        >
-          {[...testimonials, ...testimonials, ...testimonials].map((item, index) => (
-            <div 
-              key={index}
-              className="flex-shrink-0 w-[85vw] md:w-[400px] min-h-[220px] p-6 md:p-8 rounded-3xl glass-card border-[1px] border-white/5 hover:border-accent-cyan/40 hover:bg-white/[0.08] transition-all duration-500 cursor-pointer group/card flex flex-col justify-between"
-            >
-              <div className="flex justify-between items-start mb-4">
-                <div className="flex gap-1 text-accent-cyan">
-                  {[...Array(5)].map((_, i) => (
-                     <Star key={i} size={14} fill="currentColor" />
-                  ))}
-                </div>
-                <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-white/5 flex items-center justify-center text-white/20 group-hover/card:text-accent-cyan transition-colors">
-                  <MessageSquareQuote size={20} />
-                </div>
+      <div 
+        ref={scrollRef}
+        className="flex overflow-x-hidden whitespace-nowrap gap-4 md:gap-6 py-10 no-scrollbar select-none"
+        onMouseEnter={() => setIsPaused(true)}
+        onMouseLeave={() => setIsPaused(false)}
+      >
+        {[...testimonials, ...testimonials, ...testimonials].map((item, index) => (
+          <div 
+            key={index}
+            className="flex-shrink-0 w-[85vw] md:w-[400px] min-h-[220px] p-6 md:p-8 rounded-3xl glass-card border-[1px] border-white/5 hover:border-accent-cyan/40 hover:bg-white/[0.08] transition-all duration-500 cursor-pointer group/card flex flex-col justify-between"
+          >
+            <div className="flex justify-between items-start mb-4">
+              <div className="flex gap-1 text-accent-cyan">
+                {[...Array(5)].map((_, i) => (
+                   <Star key={i} size={14} fill="currentColor" />
+                ))}
               </div>
-              
-              <p className="text-white/60 font-inter text-sm md:text-base leading-relaxed whitespace-normal group-hover/card:text-white/90 transition-colors">
-                "{item.text}"
-              </p>
-              
-              <div className="mt-6 flex items-center justify-between">
-                <div>
-                  <p className="text-white font-bold font-plus-jakarta text-base md:text-lg">{item.name}</p>
-                  <p className="text-accent-cyan font-bold uppercase tracking-widest text-[8px] md:text-[9px] mt-0.5">{item.company}</p>
-                </div>
-                <div className="w-7 h-7 md:w-8 md:h-8 rounded-full bg-white/10 flex items-center justify-center text-[8px] md:text-[10px] font-black text-white/40">
-                  AV
-                </div>
+              <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-white/5 flex items-center justify-center text-white/20 group-hover/card:text-accent-cyan transition-colors">
+                <MessageSquareQuote size={20} />
               </div>
             </div>
-          ))}
-        </div>
+            
+            <p className="text-white/60 font-inter text-sm md:text-base leading-relaxed whitespace-normal group-hover/card:text-white/90 transition-colors">
+              "{item.text}"
+            </p>
+            
+            <div className="mt-6 flex items-center justify-between">
+              <div>
+                <p className="text-white font-bold font-plus-jakarta text-base md:text-lg">{item.name}</p>
+                <p className="text-accent-cyan font-bold uppercase tracking-widest text-[8px] md:text-[9px] mt-0.5">{item.company}</p>
+              </div>
+              <div className="w-7 h-7 md:w-8 md:h-8 rounded-full bg-white/10 flex items-center justify-center text-[8px] md:text-[10px] font-black text-white/40">
+                AV
+              </div>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );
