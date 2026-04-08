@@ -20,7 +20,7 @@ const Footer = () => {
             <Link href="#" className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-white/60 hover:text-accent-cyan hover:border-accent-cyan transition-all">
               <TwitterIcon size={18} />
             </Link>
-            <Link href="#" className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-white/60 hover:text-accent-cyan hover:border-accent-cyan transition-all">
+            <Link href="https://www.instagram.com/avoix.team?igsh=YjJrMXVmb3J5YmYy" className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-white/60 hover:text-accent-cyan hover:border-accent-cyan transition-all">
               <InstagramIcon size={20} />
             </Link>
             <Link href="#" className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-white/60 hover:text-accent-cyan hover:border-accent-cyan transition-all">
