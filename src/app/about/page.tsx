@@ -33,6 +33,47 @@ const team = [
   }
 ];
 
+const titleContainer = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.05,
+      delayChildren: 0.1,
+    },
+  },
+};
+
+const wordVariants = {
+  hidden: { opacity: 0, y: 40, rotateX: -45, scale: 0.9 },
+  visible: { 
+    opacity: 1, 
+    y: 0, 
+    rotateX: 0, 
+    scale: 1,
+    transition: { 
+      type: "spring", 
+      damping: 10, 
+      stiffness: 150 
+    } as any
+  },
+};
+
+const engineGlow = {
+  visible: {
+    textShadow: [
+      "0 0 0px rgba(6,182,212,0)",
+      "0 0 20px rgba(6,182,212,0.4)",
+      "0 0 0px rgba(6,182,212,0)"
+    ],
+    transition: {
+      duration: 2,
+      repeat: Infinity,
+      ease: "easeInOut"
+    } as any
+  }
+};
+
 const AboutPage = () => {
   return (
     <div className="bg-primary pt-32 pb-40 min-h-screen grid-bg px-6">
@@ -47,19 +88,45 @@ const AboutPage = () => {
             >
               Who We Are
             </motion.div>
+            
             <motion.h1 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
+              variants={titleContainer}
+              initial="hidden"
+              animate="visible"
               className="text-6xl md:text-8xl lg:text-[10rem] font-black text-white mb-8 font-plus-jakarta leading-[0.85] md:leading-[0.8] tracking-tighter"
             >
-              the <br /> <span className="text-gradient">engine</span> <br /> behind it.
+              <motion.span variants={wordVariants} className="inline-block mr-4">the</motion.span> 
+              <br /> 
+              <motion.span 
+                variants={wordVariants} 
+                animate="visible"
+                whileHover={{ scale: 1.05, rotate: [-1, 1, -1] }}
+                className="inline-block relative"
+              >
+                <motion.span 
+                  variants={engineGlow}
+                  className="text-gradient relative z-10"
+                >
+                  engine
+                </motion.span>
+                {/* Subtle duplicate for a glitchy feel */}
+                <motion.span 
+                  className="absolute inset-0 text-accent-cyan/20 blur-sm pointer-events-none select-none z-0"
+                  animate={{ opacity: [0, 0.5, 0] }}
+                  transition={{ duration: 0.1, repeat: Infinity, repeatDelay: 3 }}
+                >
+                  engine
+                </motion.span>
+              </motion.span> 
+              <br /> 
+              <motion.span variants={wordVariants} className="inline-block">behind it.</motion.span>
             </motion.h1>
           </div>
           <motion.p 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="text-lg md:text-2xl text-white/40 font-inter leading-relaxed max-w-xl mb-10 text-center md:text-left"
+            transition={{ delay: 0.6 }}
+            className="text-lg md:text-2xl text-white/40 font-inter leading-relaxed max-w-xl mb-10 text-center md:text-left font-medium"
           >
             A collective of specialists obsessed with one thing: <br className="hidden md:block" />
             <span className="text-white">building high-performance assets</span> that transform brands.
