@@ -44,6 +44,47 @@ const services = [
   // Add more services as needed...
 ];
 
+const titleContainer = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+      delayChildren: 0.2,
+    },
+  },
+};
+
+const wordVariants = {
+  hidden: { opacity: 0, y: 30, rotateX: -60, scale: 0.8 },
+  visible: { 
+    opacity: 1, 
+    y: 0, 
+    rotateX: 0, 
+    scale: 1,
+    transition: { 
+      type: "spring", 
+      damping: 12, 
+      stiffness: 180 
+    } as any
+  },
+};
+
+const servicePulse = {
+  visible: {
+    textShadow: [
+      "0 0 0px rgba(6,182,212,0)",
+      "0 0 15px rgba(6,182,212,0.3)",
+      "0 0 0px rgba(6,182,212,0)"
+    ],
+    transition: {
+      duration: 3,
+      repeat: Infinity,
+      ease: "easeInOut"
+    } as any
+  }
+};
+
 const ServicesPage = () => {
   return (
     <div className="bg-primary pt-32 pb-20 overflow-hidden">
@@ -52,20 +93,42 @@ const ServicesPage = () => {
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[500px] bg-accent-cyan/5 blur-[120px] rounded-full -z-10" />
         <div className="max-w-4xl mx-auto text-center">
           <motion.h1 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-5xl md:text-7xl font-bold text-white mb-8 font-plus-jakarta"
+            variants={titleContainer}
+            initial="hidden"
+            animate="visible"
+            className="text-6xl md:text-8xl font-black text-white mb-8 font-plus-jakarta tracking-tighter"
           >
-            Our <span className="text-gradient">Services</span>
+            <motion.span variants={wordVariants} className="inline-block mr-4">Our</motion.span>
+            <br className="md:hidden" />
+            <motion.span 
+              variants={wordVariants}
+              whileHover={{ scale: 1.05, rotate: [0, 1, -1, 0] }}
+              className="inline-block relative cursor-pointer"
+            >
+              <motion.span 
+                variants={servicePulse}
+                className="text-gradient relative z-10"
+              >
+                Services
+              </motion.span>
+              {/* Subtle tech glitch duplicate */}
+              <motion.span 
+                className="absolute inset-0 text-accent-cyan/10 blur-md pointer-events-none select-none z-0"
+                animate={{ opacity: [0, 0.4, 0], x: [0, 2, -2, 0] }}
+                transition={{ duration: 0.2, repeat: Infinity, repeatDelay: 4 }}
+              >
+                Services
+              </motion.span>
+            </motion.span>
           </motion.h1>
           <motion.p 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="text-xl text-white/60 font-inter leading-relaxed"
+            transition={{ delay: 0.8 }}
+            className="text-xl text-white/40 font-inter leading-relaxed max-w-2xl mx-auto"
           >
             Everything your business needs to thrive in the digital age. We combine design, 
-            technology, and strategy to deliver measurable results.
+            technology, and strategy to deliver <span className="text-white">measurable results</span>.
           </motion.p>
         </div>
       </section>
