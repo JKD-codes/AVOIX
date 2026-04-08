@@ -84,39 +84,26 @@ const PortfolioPage = () => {
               >
                  Case Studies
               </motion.span>
-              <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold text-white mb-8 font-plus-jakarta leading-none tracking-tighter">
-                 <div className="overflow-hidden inline-block mr-4">
+              <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold text-white mb-8 font-plus-jakarta leading-[1.1] tracking-tighter">
+                 <div className="overflow-hidden">
                     <motion.span 
                        custom="left"
                        variants={revealVariants}
                        initial="hidden"
                        whileInView="visible"
-                       viewport={{ once: false }}
+                       viewport={{ once: false, amount: 0.1 }}
                        className="inline-block"
                     >
-                       Real
+                       Real Projects.
                     </motion.span>
                  </div>
-                 <div className="overflow-hidden inline-block">
-                    <motion.span 
-                       custom="right"
-                       variants={revealVariants}
-                       initial="hidden"
-                       whileInView="visible"
-                       viewport={{ once: false }}
-                       className="inline-block"
-                    >
-                       Projects.
-                    </motion.span>
-                 </div>
-                 <br />
-                 <div className="overflow-hidden inline-block pt-2">
+                 <div className="overflow-hidden">
                     <motion.span 
                        custom="bottom"
                        variants={revealVariants}
                        initial="hidden"
                        whileInView="visible"
-                       viewport={{ once: false }}
+                       viewport={{ once: false, amount: 0.1 }}
                        className="text-gradient inline-block"
                     >
                        Real Results.
