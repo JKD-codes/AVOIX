@@ -47,25 +47,30 @@ const caseStudies = [
   }
 ];
 
-const revealVariants = {
-  hidden: (direction: "left" | "right" | "bottom") => ({
-    x: direction === "left" ? -120 : direction === "right" ? 120 : 0,
-    y: direction === "bottom" ? 120 : 0,
-    opacity: 0,
-    rotate: direction === "left" ? -5 : direction === "right" ? 5 : 0,
-  }),
+const portfolioTitleVariants = {
+  hidden: { opacity: 1 },
   visible: {
-    x: 0,
-    y: 0,
     opacity: 1,
-    rotate: 0,
     transition: {
-      duration: 1.2,
+      staggerChildren: 0.2,
+      delayChildren: 0.1,
+    },
+  },
+};
+
+const lineVariants = {
+  hidden: { opacity: 0, y: 100, rotateX: -10 },
+  visible: { 
+    opacity: 1, 
+    y: 0, 
+    rotateX: 0,
+    transition: { 
+      duration: 1, 
       ease: [0.16, 1, 0.3, 1],
       type: "spring",
-      damping: 20,
-      stiffness: 80,
-    } as any,
+      damping: 25,
+      stiffness: 100
+    } as any
   },
 };
 
@@ -84,32 +89,31 @@ const PortfolioPage = () => {
               >
                  Case Studies
               </motion.span>
-              <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold text-white mb-8 font-plus-jakarta leading-[1.1] tracking-tighter">
-                 <div className="overflow-hidden">
+              
+              <motion.h1 
+                variants={portfolioTitleVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: false, amount: 0.1 }}
+                className="text-5xl md:text-7xl lg:text-8xl font-black text-white mb-8 font-plus-jakarta leading-[1.2] tracking-tighter"
+              >
+                 <div className="overflow-hidden pb-2">
                     <motion.span 
-                       custom="left"
-                       variants={revealVariants}
-                       initial="hidden"
-                       whileInView="visible"
-                       viewport={{ once: false, amount: 0.1 }}
+                       variants={lineVariants}
                        className="inline-block"
                     >
                        Real Projects.
                     </motion.span>
                  </div>
-                 <div className="overflow-hidden">
+                 <div className="overflow-hidden pb-4">
                     <motion.span 
-                       custom="bottom"
-                       variants={revealVariants}
-                       initial="hidden"
-                       whileInView="visible"
-                       viewport={{ once: false, amount: 0.1 }}
+                       variants={lineVariants}
                        className="text-gradient inline-block"
                     >
                        Real Results.
                     </motion.span>
                  </div>
-              </h1>
+              </motion.h1>
               <motion.p 
                  initial={{ opacity: 0, y: 20 }}
                  animate={{ opacity: 1, y: 0 }}
