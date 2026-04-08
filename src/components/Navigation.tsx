@@ -37,8 +37,10 @@ const Navigation = () => {
 
   return (
     <nav 
-      className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${
-        scrolled ? "py-4 bg-primary/80 backdrop-blur-xl border-b border-white/5 shadow-2xl" : "py-8 bg-transparent"
+      className={`fixed top-0 left-0 w-full z-[100] transition-all duration-500 ${
+        scrolled 
+          ? "py-4 bg-black/90 md:bg-primary/80 backdrop-blur-xl border-b border-white/5 shadow-2xl" 
+          : "py-6 md:py-8 bg-transparent"
       }`}
     >
       <div className="container mx-auto px-6 flex items-center justify-between">
@@ -70,7 +72,7 @@ const Navigation = () => {
 
         {/* Mobile Toggle */}
         <button 
-          className="md:hidden text-white z-[60] p-3 bg-white/5 rounded-full border border-white/10 active:scale-95 transition-transform"
+          className="md:hidden text-white z-[110] relative p-3 bg-white/5 rounded-full border border-white/10 active:scale-95 transition-transform"
           onClick={() => setIsOpen(!isOpen)}
         >
           {isOpen ? <X size={24} /> : <Menu size={24} />}
@@ -84,7 +86,7 @@ const Navigation = () => {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: "100%" }}
               transition={{ type: "spring", damping: 30, stiffness: 200 }}
-              className="fixed inset-0 bg-primary z-[55] flex flex-col items-center justify-center gap-6 py-20 px-6 overflow-y-auto"
+              className="fixed inset-0 bg-primary z-[105] flex flex-col items-center justify-center gap-6 py-20 px-6 overflow-y-auto h-[100dvh]"
             >
               {/* Technical Grid Overlay */}
               <div className="absolute inset-0 grid-bg opacity-10 pointer-events-none" />

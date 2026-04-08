@@ -37,16 +37,18 @@ const PortfolioSlider = () => {
       scrollRef.current,
       { translateX: 0 },
       {
-        translateX: "-300vw",
+        translateX: "-380vw",
         ease: "none",
         duration: 1,
         scrollTrigger: {
           trigger: triggerRef.current,
           start: "top top",
-          end: "2000 top",
-          scrub: 0.6,
+          end: () => `+=${scrollRef.current?.scrollWidth || 5000}`,
+          scrub: 1,
           pin: true,
+          pinSpacing: true,
           invalidateOnRefresh: true,
+          anticipatePin: 1,
         },
       }
     );
@@ -56,10 +58,10 @@ const PortfolioSlider = () => {
   }, [isDesktop]);
 
   return (
-    <section className="overflow-hidden bg-primary" ref={triggerRef}>
+    <section className="overflow-hidden bg-primary relative z-20" ref={triggerRef}>
       {/* Desktop Horizontal View */}
       {isDesktop ? (
-        <div ref={scrollRef} className="h-screen w-[400vw] flex flex-row relative items-center px-[10vw]">
+        <div ref={scrollRef} className="min-h-screen w-[480vw] flex flex-row relative items-center">
           {/* Header Card */}
           <div className="h-[70vh] w-[80vw] flex-shrink-0 flex flex-col justify-center px-20">
              <h2 className="text-[12rem] font-black text-white leading-none tracking-tighter lowercase">
@@ -73,7 +75,7 @@ const PortfolioSlider = () => {
 
           {/* Project Cards */}
           {projects.map((project) => (
-            <div key={project.id} className="h-[70vh] w-[80vw] flex-shrink-0 flex items-center justify-center p-10">
+            <div key={project.id} className="h-[80vh] w-[80vw] flex-shrink-0 flex items-center justify-center p-10">
               <div className={`w-full h-full glass-card rounded-[4rem] border border-white/5 overflow-hidden group relative flex flex-col justify-between p-16 bg-gradient-to-br ${project.color} to-transparent`}>
                 <div className="flex justify-between items-start">
                    <div>
