@@ -65,7 +65,7 @@ const Hero = () => {
                     }
                   }
                 }}
-                className="relative overflow-hidden inline-block"
+                className="relative inline-block py-4"
               >
                 {"Experiences".split("").map((char, i) => (
                   <motion.span
