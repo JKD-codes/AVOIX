@@ -199,8 +199,31 @@ export default function Home() {
       <section className="py-40 bg-black relative overflow-hidden flex items-center justify-center">
          <div className="container mx-auto px-6 text-center relative z-10 text-white">
             <h2 className="text-7xl md:text-[12rem] font-black mb-12 font-plus-jakarta tracking-[calc(-0.06em)] leading-none lowercase">
-               ready to <br />
-               <span className="text-gradient">grow?</span>
+               {"ready to".split("").map((char, i) => (
+                 <motion.span
+                    key={i}
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: i * 0.1, duration: 0.01 }}
+                 >
+                    {char === " " ? "\u00A0" : char}
+                 </motion.span>
+               ))}
+               <br />
+               <span className="text-gradient">
+                 {"grow?".split("").map((char, i) => (
+                   <motion.span
+                      key={i}
+                      initial={{ opacity: 0 }}
+                      whileInView={{ opacity: 1 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: 0.8 + i * 0.1, duration: 0.01 }}
+                   >
+                      {char}
+                   </motion.span>
+                 ))}
+               </span>
             </h2>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-8">
                <button className="bg-accent-cyan text-black px-14 py-6 rounded-full font-bold text-2xl hover:scale-110 transition-all shadow-[0_0_50px_rgba(6,182,212,0.3)]">
