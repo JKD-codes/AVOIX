@@ -1,11 +1,29 @@
 "use client";
 
 import React, { useState } from "react";
-import { motion } from "framer-motion";
+import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { Mail, Phone, MapPin, Send, MessageSquare, CheckCircle2 } from "lucide-react";
 
 const ContactPage = () => {
   const [formState, setFormState] = useState<"idle" | "submitting" | "success">("idle");
+
+  // Mouse movement for Luminous Gravity Glass effect
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+
+  const rotateX = useSpring(useTransform(mouseY, [-400, 400], [5, -5]), { stiffness: 100, damping: 30 });
+  const rotateY = useSpring(useTransform(mouseX, [-400, 400], [-5, 5]), { stiffness: 100, damping: 30 });
+
+  const glowX = useSpring(mouseX, { stiffness: 120, damping: 40 });
+  const glowY = useSpring(mouseY, { stiffness: 120, damping: 40 });
+
+  function handleMouseMove({ currentTarget, clientX, clientY }: React.MouseEvent) {
+    const { left, top, width, height } = currentTarget.getBoundingClientRect();
+    const x = clientX - left - width / 2;
+    const y = clientY - top - height / 2;
+    mouseX.set(x);
+    mouseY.set(y);
+  }
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -95,8 +113,30 @@ const ContactPage = () => {
           <motion.div 
              initial={{ opacity: 0, scale: 0.98 }}
              animate={{ opacity: 1, scale: 1 }}
-             className="glass-card p-10 md:p-16 rounded-[2.5rem] border border-white/10"
+             style={{
+               rotateX,
+               rotateY,
+               transformStyle: "preserve-3d",
+             }}
+             onMouseMove={handleMouseMove}
+             onMouseLeave={() => {
+               mouseX.set(0);
+               mouseY.set(0);
+             }}
+             className="glass-card p-10 md:p-16 rounded-[2.5rem] border border-white/10 relative overflow-hidden group/form"
           >
+            {/* Luminous Glow Highlight */}
+            <motion.div 
+               className="pointer-events-none absolute -inset-px opacity-0 group-hover/form:opacity-100 transition-opacity duration-500 z-0"
+               style={{
+                 background: useTransform(
+                   [glowX, glowY],
+                   ([x, y]) => `radial-gradient(600px circle at ${Number(x) + 400}px ${Number(y) + 400}px, rgba(6,182,212,0.15), transparent 40%)`
+                 )
+               }}
+            />
+            
+            <div className="relative z-10">
             {formState === "success" ? (
               <div className="flex flex-col items-center justify-center py-20 text-center animate-in fade-in zoom-in duration-500">
                 <div className="w-20 h-20 bg-accent-cyan/10 rounded-full flex items-center justify-center text-accent-cyan mb-8">
@@ -175,6 +215,7 @@ const ContactPage = () => {
                 </button>
               </form>
             )}
+          </div>
           </motion.div>
         </div>
 
