@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { Menu, X, ArrowRight } from "lucide-react";
 import Logo from "./Logo";
 
@@ -13,6 +13,67 @@ const navLinks = [
   { name: "About", href: "/about" },
   { name: "Contact", href: "/contact" },
 ];
+
+const NavLink = ({ name, href, isMobile, onClick }: { name: string, href: string, isMobile?: boolean, onClick?: () => void }) => {
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+
+  const springConfig = { stiffness: 150, damping: 20 };
+  const x = useSpring(mouseX, springConfig);
+  const y = useSpring(mouseY, springConfig);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (isMobile) return;
+    const { left, top, width, height } = e.currentTarget.getBoundingClientRect();
+    const centerX = left + width / 2;
+    const centerY = top + height / 2;
+    mouseX.set((e.clientX - centerX) * 0.4);
+    mouseY.set((e.clientY - centerY) * 0.4);
+  };
+
+  const handleMouseLeave = () => {
+    mouseX.set(0);
+    mouseY.set(0);
+  };
+
+  return (
+    <motion.div
+      style={{ x, y }}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      className={isMobile ? "w-full text-center" : "relative group"}
+    >
+      <Link 
+        href={href}
+        onClick={onClick}
+        className={isMobile 
+          ? "text-5xl font-black text-white hover:text-accent-cyan transition-colors font-plus-jakarta lowercase tracking-tighter inline-block py-2"
+          : "text-sm font-bold text-white/60 hover:text-accent-cyan transition-colors uppercase tracking-widest relative px-2 py-1 block"
+        }
+      >
+        {name.split("").map((char, i) => (
+          <motion.span
+            key={i}
+            initial={{ opacity: 0, y: 5 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: i * 0.02, duration: 0.4, ease: "easeOut" }}
+            className="inline-block"
+          >
+            {char === " " ? "\u00A0" : char}
+          </motion.span>
+        ))}
+        {!isMobile && (
+          <motion.span 
+            className="absolute -bottom-1 left-0 h-0.5 bg-accent-cyan" 
+            initial={{ width: 0 }}
+            whileHover={{ width: "100%" }}
+            transition={{ duration: 0.3 }}
+          />
+        )}
+      </Link>
+    </motion.div>
+  );
+};
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -52,14 +113,7 @@ const Navigation = () => {
         {/* Desktop Links */}
         <div className="hidden md:flex items-center gap-10">
           {navLinks.map((link) => (
-            <Link 
-              key={link.name} 
-              href={link.href}
-              className="text-sm font-bold text-white/60 hover:text-accent-cyan transition-colors uppercase tracking-widest relative group"
-            >
-              {link.name}
-              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-accent-cyan transition-all group-hover:w-full" />
-            </Link>
+            <NavLink key={link.name} {...link} />
           ))}
           <Link 
             href="/contact" 
@@ -92,22 +146,13 @@ const Navigation = () => {
               <div className="absolute inset-0 grid-bg opacity-10 pointer-events-none" />
               
               <div className="flex flex-col items-center gap-8 relative z-10 w-full">
-                {navLinks.map((link, index) => (
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: index * 0.1 }}
-                    key={link.name}
-                    className="w-full text-center"
-                  >
-                    <Link 
-                      href={link.href}
-                      className="text-5xl font-black text-white hover:text-accent-cyan transition-colors font-plus-jakarta lowercase tracking-tighter"
-                      onClick={() => setIsOpen(false)}
-                    >
-                      {link.name}
-                    </Link>
-                  </motion.div>
+                {navLinks.map((link) => (
+                  <NavLink 
+                    key={link.name} 
+                    {...link} 
+                    isMobile 
+                    onClick={() => setIsOpen(false)} 
+                  />
                 ))}
                 
                 <motion.div
