@@ -129,8 +129,8 @@ export default function Home() {
       </section>
 
       {/* Testimonials Marquee - The mini card slider requested */}
-      <section className="py-40 bg-black relative overflow-hidden">
-        <div className="container mx-auto px-6 mb-16">
+      <section className="py-20 md:py-24 bg-black relative overflow-hidden">
+        <div className="container mx-auto px-6 mb-10 md:mb-12">
           <h2 className="text-4xl md:text-6xl font-black text-white font-plus-jakarta tracking-tighter">What Founders <span className="text-gradient">Say</span></h2>
           <p className="text-white/20 mt-4 tracking-widest uppercase font-bold text-[10px]">Direct feedback from the engine room</p>
         </div>

@@ -14,12 +14,6 @@ const team = [
     Icon: Sparkles,
   },
   {
-    name: "Khushi",
-    role: "Design Lead",
-    bio: "Master of minimalist aesthetics and user-centric flows. Khushi ensures every pixel serves a purpose and builds trust.",
-    Icon: Paintbrush,
-  },
-  {
     name: "Jainam",
     role: "Tech Lead",
     bio: "Architecture expert with a passion for 60FPS animations and high-performance codebases.",
@@ -30,6 +24,12 @@ const team = [
     role: "Growth Strategy",
     bio: "Data-driven strategist focused on global business scaling and strategic positioning.",
     Icon: Rocket,
+  },
+  {
+    name: "Khushi",
+    role: "Design Lead",
+    bio: "Master of minimalist aesthetics and user-centric flows. Khushi ensures every pixel serves a purpose and builds trust.",
+    Icon: Paintbrush,
   }
 ];
 

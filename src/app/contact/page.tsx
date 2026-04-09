@@ -32,12 +32,60 @@ const ContactPage = () => {
           CONTACT US
         </motion.span>
         <motion.h1 
-           initial={{ opacity: 0, y: 20 }}
-           animate={{ opacity: 1, y: 0 }}
-           className="text-5xl md:text-7xl font-bold text-white mb-8 font-plus-jakarta"
+           initial="hidden"
+           animate="visible"
+           variants={{
+             visible: {
+               transition: {
+                 staggerChildren: 0.02,
+               }
+             }
+           }}
+           className="text-5xl md:text-7xl font-bold text-white mb-8 font-plus-jakarta leading-tight tracking-tighter"
         >
-           Let&apos;s Build Your <br />
-           <span className="text-gradient">Digital Empire.</span>
+          {"Let's Build Your".split(" ").map((word, i) => (
+            <motion.span 
+              key={i} 
+              className="inline-block mr-4 whitespace-nowrap"
+              variants={{
+                hidden: { opacity: 0, y: 50, rotateX: -90 },
+                visible: { 
+                  opacity: 1, 
+                  y: 0, 
+                  rotateX: 0,
+                  transition: { type: "spring", damping: 12, stiffness: 200 }
+                }
+              }}
+            >
+              {word}
+            </motion.span>
+          ))}
+          <br className="hidden md:block" />
+          <div className="overflow-hidden inline-block">
+            {"Digital Empire.".split("").map((char, i) => (
+              <motion.span
+                key={i}
+                className="inline-block text-gradient hover:text-accent-cyan transition-colors duration-300 cursor-default"
+                variants={{
+                  hidden: { opacity: 0, y: 100, scale: 2, filter: "blur(10px)" },
+                  visible: { 
+                    opacity: 1, 
+                    y: 0, 
+                    scale: 1, 
+                    filter: "blur(0px)",
+                    transition: { type: "spring", damping: 15, stiffness: 100 }
+                  }
+                }}
+                whileHover={{ 
+                  scale: 1.2, 
+                  rotate: [0, -10, 10, 0],
+                  filter: "drop-shadow(0 0 8px rgba(6,182,212,0.8))"
+                }}
+              >
+                {char === " " ? "\u00A0" : char}
+              </motion.span>
+            ))}
+          </div>
         </motion.h1>
       </section>
 
