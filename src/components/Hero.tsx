@@ -55,33 +55,45 @@ const Hero = () => {
             
             <h1 className="text-[12vw] sm:text-7xl md:text-8xl lg:text-9xl font-black leading-[0.9] tracking-tighter text-white font-plus-jakarta lowercase">
               Digital <br />
-              <div className="relative overflow-hidden inline-block">
+              <motion.div 
+                initial="hidden"
+                animate="visible"
+                variants={{
+                  visible: {
+                    transition: {
+                      staggerChildren: 0.05,
+                    }
+                  }
+                }}
+                className="relative overflow-hidden inline-block"
+              >
                 {"Experiences".split("").map((char, i) => (
                   <motion.span
                     key={i}
                     className="inline-block text-gradient cursor-default"
-                    initial={{ opacity: 0, y: 40, filter: "blur(10px)", scale: 1.2 }}
-                    animate={{ 
-                      opacity: 1, 
-                      y: 0, 
-                      filter: "blur(0px)", 
-                      scale: 1,
-                      transition: { 
-                        delay: 0.2 + i * 0.03,
-                        duration: 0.8,
-                        ease: [0.16, 1, 0.3, 1]
+                    variants={{
+                      hidden: { opacity: 0, scale: 0, rotate: -20 },
+                      visible: { 
+                        opacity: 1, 
+                        scale: 1, 
+                        rotate: 0,
+                        transition: { 
+                          type: "spring", 
+                          damping: 10, 
+                          stiffness: 150,
+                        }
                       }
                     }}
                     whileHover={{ 
-                      scale: 1.1,
-                      textShadow: "0 0 20px rgba(6,182,212,0.4)",
-                      filter: "brightness(1.2)"
+                      scale: 1.4,
+                      rotate: [0, -10, 10, 0],
+                      filter: "drop-shadow(0 0 15px rgba(6,182,212,0.4))"
                     }}
                   >
                     {char}
                   </motion.span>
                 ))}
-              </div>
+              </motion.div>
               <br />
               <div className="relative overflow-hidden inline-block pr-4">
                 {"at Scale".split("").map((char, i) => (
