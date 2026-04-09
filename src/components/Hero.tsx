@@ -4,6 +4,7 @@ import React, { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { gsap } from "gsap";
 import { MessageSquare, Phone, ArrowRight } from "lucide-react";
+import Magnetic3DButton from "./Magnetic3DButton";
 
 const Hero = () => {
   const heroRef = useRef<HTMLDivElement>(null);
@@ -146,10 +147,12 @@ const Hero = () => {
             transition={{ duration: 1, delay: 0.4 }}
             className="flex flex-col sm:flex-row items-start sm:items-center gap-6 pt-4"
           >
-            <button className="w-full sm:w-auto bg-white text-black px-10 py-5 rounded-full font-bold flex items-center justify-center gap-4 hover:bg-accent-cyan hover:scale-105 transition-all group overflow-hidden relative">
-              <span className="relative z-10 font-plus-jakarta uppercase tracking-widest text-sm">Launch Project</span>
-              <ArrowRight size={20} className="relative z-10 group-hover:translate-x-1 transition-transform" />
-            </button>
+            <Magnetic3DButton>
+              <div className="w-full sm:w-auto bg-white text-black px-10 py-5 rounded-full font-bold flex items-center justify-center gap-4 hover:bg-accent-cyan transition-all group overflow-hidden relative font-plus-jakarta uppercase tracking-widest text-sm">
+                <span className="relative z-10">Launch Project</span>
+                <ArrowRight size={20} className="relative z-10 group-hover:translate-x-1 transition-transform" />
+              </div>
+            </Magnetic3DButton>
             <button className="group flex items-center gap-4 text-white/50 hover:text-white transition-all font-bold tracking-widest uppercase text-sm ml-4 sm:ml-0">
                 <div className="w-10 h-10 md:w-12 md:h-12 rounded-full border border-white/10 flex items-center justify-center group-hover:border-white/40 transition-all">
                   <Phone size={18} className="group-hover:rotate-12 transition-transform" />

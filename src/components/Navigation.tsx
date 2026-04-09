@@ -5,6 +5,7 @@ import Link from "next/link";
 import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { Menu, X, ArrowRight } from "lucide-react";
 import Logo from "./Logo";
+import Magnetic3DButton from "./Magnetic3DButton";
 
 const navLinks = [
   { name: "Home", href: "/" },
@@ -57,7 +58,7 @@ const NavLink = ({ name, href, isMobile, onClick }: { name: string, href: string
         onClick={onClick}
         className={isMobile 
           ? "text-5xl font-black text-white hover:text-accent-cyan transition-colors font-plus-jakarta lowercase tracking-tighter inline-block py-2"
-          : "text-sm font-bold text-white/40 hover:text-white transition-colors uppercase tracking-[0.2em] relative px-2 py-1 block overflow-visible"
+          : "text-sm font-bold text-white hover:text-accent-cyan transition-colors uppercase tracking-[0.2em] relative px-2 py-1 block overflow-visible"
         }
       >
         {name.split("").map((char, i) => (
@@ -131,13 +132,15 @@ const Navigation = () => {
           {navLinks.map((link) => (
             <NavLink key={link.name} {...link} />
           ))}
-          <Link 
-            href="/contact" 
-            className="bg-white/5 border border-white/10 text-white px-6 py-2.5 rounded-full text-sm font-bold flex items-center gap-2 hover:bg-white/10 hover:border-white/20 transition-all"
-          >
-            Start Project
-            <ArrowRight size={16} />
-          </Link>
+          <Magnetic3DButton>
+            <Link 
+              href="/contact" 
+              className="bg-white/5 border border-white/10 text-white px-6 py-2.5 rounded-full text-sm font-bold flex items-center gap-2 hover:bg-white/10 hover:border-white/20 transition-all font-plus-jakarta uppercase tracking-widest"
+            >
+              Start Project
+              <ArrowRight size={16} />
+            </Link>
+          </Magnetic3DButton>
         </div>
 
         {/* Mobile Toggle */}
@@ -177,14 +180,16 @@ const Navigation = () => {
                   transition={{ delay: 0.6 }}
                   className="pt-10 w-full max-w-xs"
                 >
-                  <Link 
-                    href="/contact"
-                    className="bg-white text-black w-full py-5 rounded-full font-bold text-xl shadow-2xl flex items-center justify-center gap-3"
-                    onClick={() => setIsOpen(false)}
-                  >
-                    Start Project
-                    <ArrowRight size={24} />
-                  </Link>
+                  <Magnetic3DButton className="w-full">
+                    <Link 
+                      href="/contact"
+                      className="bg-white text-black w-full py-5 rounded-full font-bold text-xl shadow-2xl flex items-center justify-center gap-3 font-plus-jakarta uppercase tracking-widest"
+                      onClick={() => setIsOpen(false)}
+                    >
+                      Start Project
+                      <ArrowRight size={24} />
+                    </Link>
+                  </Magnetic3DButton>
                 </motion.div>
 
                 {/* Footer Info in Menu */}
