@@ -4,6 +4,7 @@ import Hero from "@/components/Hero";
 import ServiceCard from "@/components/ServiceCard";
 import PortfolioSlider from "@/components/PortfolioSlider";
 import TestimonialMarquee from "@/components/TestimonialMarquee";
+import { motion } from "framer-motion";
 import { 
   Monitor, 
   Smartphone, 
@@ -60,13 +61,70 @@ export default function Home() {
       <section className="py-40 relative bg-black grid-bg">
         <div className="container mx-auto px-6">
           <div className="flex flex-col md:flex-row justify-between items-end gap-12 mb-32">
-            <div className="max-w-2xl">
+            <motion.div 
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              variants={{
+                visible: {
+                  transition: {
+                    staggerChildren: 0.1,
+                  }
+                }
+              }}
+              className="max-w-2xl"
+            >
               <span className="text-accent-cyan font-bold tracking-[0.4em] text-[10px] uppercase mb-6 block">Capabilities</span>
               <h2 className="text-6xl md:text-8xl font-black text-white font-plus-jakarta leading-[0.9] tracking-tighter">
-                Solutions that <br /> 
-                <span className="text-gradient">Scale.</span>
+                {["Solutions", "that"].map((word, i) => (
+                  <motion.span 
+                    key={i} 
+                    className="inline-block mr-4"
+                    variants={{
+                      hidden: { opacity: 0, y: 50, rotateX: -90 },
+                      visible: { 
+                        opacity: 1, 
+                        y: 0, 
+                        rotateX: 0,
+                        transition: { type: "spring", damping: 12, stiffness: 200 }
+                      }
+                    }}
+                  >
+                    {word}
+                  </motion.span>
+                ))}
+                <br /> 
+                <div className="inline-block mt-2">
+                  {"Scale.".split("").map((char, i) => (
+                    <motion.span
+                      key={i}
+                      className="inline-block text-gradient cursor-default hover:text-white transition-colors"
+                      variants={{
+                        hidden: { opacity: 0, scale: 0, rotate: -20 },
+                        visible: { 
+                          opacity: 1, 
+                          scale: 1, 
+                          rotate: 0,
+                          transition: { 
+                            type: "spring", 
+                            damping: 10, 
+                            stiffness: 150,
+                            delay: i * 0.05 
+                          }
+                        }
+                      }}
+                      whileHover={{ 
+                        scale: 1.4,
+                        rotate: [0, -10, 10, 0],
+                        filter: "drop-shadow(0 0 15px rgba(255,107,0,0.4))"
+                      }}
+                    >
+                      {char}
+                    </motion.span>
+                  ))}
+                </div>
               </h2>
-            </div>
+            </motion.div>
             <p className="text-xl text-white/30 max-w-sm mb-4 font-inter leading-relaxed">
               We focus on the metrics that matter. More leads, better conversion, absolute reliability.
             </p>
