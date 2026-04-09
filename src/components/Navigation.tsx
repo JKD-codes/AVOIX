@@ -42,33 +42,49 @@ const NavLink = ({ name, href, isMobile, onClick }: { name: string, href: string
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       className={isMobile ? "w-full text-center" : "relative group"}
+      initial="hidden"
+      animate="visible"
+      variants={{
+        visible: {
+          transition: {
+            staggerChildren: 0.03,
+          }
+        }
+      }}
     >
       <Link 
         href={href}
         onClick={onClick}
         className={isMobile 
           ? "text-5xl font-black text-white hover:text-accent-cyan transition-colors font-plus-jakarta lowercase tracking-tighter inline-block py-2"
-          : "text-sm font-bold text-white/60 hover:text-accent-cyan transition-colors uppercase tracking-widest relative px-2 py-1 block"
+          : "text-sm font-bold text-white/40 hover:text-white transition-colors uppercase tracking-[0.2em] relative px-2 py-1 block overflow-visible"
         }
       >
         {name.split("").map((char, i) => (
           <motion.span
             key={i}
-            initial={{ opacity: 0, y: 5 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: i * 0.02, duration: 0.4, ease: "easeOut" }}
+            variants={{
+              hidden: { opacity: 0, y: 10, rotateX: -90 },
+              visible: { 
+                opacity: 1, 
+                y: 0, 
+                rotateX: 0,
+                transition: { type: "spring", damping: 12, stiffness: 200 }
+              }
+            }}
+            whileHover={{ 
+              scale: 1.3,
+              y: -2,
+              color: "#06b6d4", // accent-cyan
+              transition: { type: "spring", damping: 10, stiffness: 300 }
+            }}
             className="inline-block"
           >
             {char === " " ? "\u00A0" : char}
           </motion.span>
         ))}
         {!isMobile && (
-          <motion.span 
-            className="absolute -bottom-1 left-0 h-0.5 bg-accent-cyan" 
-            initial={{ width: 0 }}
-            whileHover={{ width: "100%" }}
-            transition={{ duration: 0.3 }}
-          />
+          <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-accent-cyan transition-all duration-300 group-hover:w-full" />
         )}
       </Link>
     </motion.div>
