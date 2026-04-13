@@ -26,6 +26,23 @@ const Hero = () => {
         { y: -10 }, 
         { y: 10, duration: 4, repeat: -1, yoyo: true, ease: "power1.inOut" }
       );
+
+      // 3D Scroll tilt
+      gsap.to(".floating-image", {
+        scrollTrigger: {
+          trigger: heroRef.current,
+          start: "top top",
+          end: "bottom top",
+          scrub: true
+        },
+        rotateX: -35,
+        rotateY: 25,
+        scale: 0.8,
+        y: 200,
+        z: 100,
+        opacity: 0.5,
+        ease: "none"
+      });
     }, heroRef);
 
     return () => ctx.revert();

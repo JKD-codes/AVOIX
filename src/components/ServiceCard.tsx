@@ -14,12 +14,24 @@ interface ServiceCardProps {
 const ServiceCard = ({ title, description, Icon, delay = 0 }: ServiceCardProps) => {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.5, delay }}
-      whileHover={{ y: -10 }}
-      className="glass-card p-10 rounded-2xl border border-white/5 hover:border-accent-cyan/30 transition-all group relative overflow-hidden"
+      initial={{ opacity: 0, y: 100, rotateX: 45, rotateY: -20, z: -200 }}
+      whileInView={{ opacity: 1, y: 0, rotateX: 0, rotateY: 0, z: 0 }}
+      viewport={{ once: true, amount: 0.1 }}
+      transition={{ 
+        duration: 1.2, 
+        delay,
+        ease: [0.16, 1, 0.3, 1]
+      }}
+      whileHover={{ 
+        y: -20,
+        scale: 1.05,
+        rotateX: -10,
+        rotateY: 10,
+        z: 100,
+        transition: { duration: 0.4, ease: "easeOut" }
+      }}
+      style={{ transformStyle: "preserve-3d", perspective: "1000px" }}
+      className="glass-card p-10 rounded-2xl border border-white/5 hover:border-accent-cyan/30 transition-all group relative overflow-hidden will-change-transform"
     >
       <div className="absolute top-0 left-0 w-2 h-0 bg-accent-cyan transition-all duration-300 group-hover:h-full" />
       

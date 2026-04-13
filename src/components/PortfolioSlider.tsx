@@ -45,9 +45,9 @@ const PortfolioSlider = () => {
   useEffect(() => {
     if (!scrollRef.current || !triggerRef.current) return;
 
-    const scrollWidth = scrollRef.current.scrollWidth;
-    const viewportWidth = window.innerWidth;
-
+    const sections = gsap.utils.toArray(".project-card-wrapper");
+    
+    // Main horizontal scroll animation
     const pin = gsap.fromTo(
       scrollRef.current,
       { x: 0 },
@@ -66,6 +66,27 @@ const PortfolioSlider = () => {
         },
       }
     );
+
+    // 3D tilt animation for each card
+    sections.forEach((section: any) => {
+      const card = section.querySelector(".glass-card");
+      gsap.timeline({
+        scrollTrigger: {
+          trigger: section,
+          containerAnimation: pin,
+          start: "left right",
+          end: "right left",
+          scrub: true,
+        }
+      })
+      .fromTo(card, 
+        { rotationY: 45, scale: 0.7, z: -500, opacity: 0 },
+        { rotationY: 0, scale: 1, z: 0, opacity: 1, duration: 1, ease: "power2.out" }
+      )
+      .to(card, 
+        { rotationY: -45, scale: 0.7, z: -500, opacity: 0, duration: 1, ease: "power2.in" }
+      );
+    });
     
     return () => {
       pin.kill();
@@ -74,7 +95,11 @@ const PortfolioSlider = () => {
 
   return (
     <section className="overflow-hidden bg-primary relative z-20" ref={triggerRef}>
-      <div ref={scrollRef} className="min-h-screen w-max flex flex-row relative items-center will-change-transform">
+      <div 
+        ref={scrollRef} 
+        className="min-h-screen w-max flex flex-row relative items-center will-change-transform"
+        style={{ perspective: "1500px", transformStyle: "preserve-3d" }}
+      >
         {/* Header Card */}
         <div className="h-[70vh] w-[100vw] md:w-[80vw] flex-shrink-0 flex flex-col justify-center px-8 md:px-20">
            <motion.h2 
@@ -98,8 +123,8 @@ const PortfolioSlider = () => {
 
         {/* Project Cards */}
         {projects.map((project) => (
-          <div key={project.id} className="h-[85vh] w-[90vw] md:w-[80vw] flex-shrink-0 flex items-center justify-center p-3 md:p-10">
-            <div className={`w-full h-full glass-card rounded-[2.5rem] md:rounded-[4rem] border border-white/5 overflow-hidden group relative flex flex-col justify-between p-8 md:p-16 bg-gradient-to-br ${project.color} to-transparent`}>
+          <div key={project.id} className="project-card-wrapper h-[85vh] w-[90vw] md:w-[80vw] flex-shrink-0 flex items-center justify-center p-3 md:p-10">
+            <div className={`w-full h-full glass-card rounded-[2.5rem] md:rounded-[4rem] border border-white/5 overflow-hidden group relative flex flex-col justify-between p-8 md:p-16 bg-gradient-to-br ${project.color} to-transparent will-change-transform`}>
               <div className="flex justify-between items-start relative z-10">
                  <div>
                     <p className="text-accent-cyan font-bold tracking-[0.3em] uppercase text-[10px] md:text-xs mb-2 md:mb-4">{project.category}</p>
